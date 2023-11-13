@@ -109,15 +109,22 @@ def shift_by_letter(letter, letter_shift):
     str
         the letter, shifted appropriately.
     '''
-    letter = letter.upper()
-    letter_shift = letter_shift.upper()
-    
-    shift_value = ord(letter_shift) - ord('A')
-    
-    shifted_letter = chr(((ord(letter) - ord('A') + shift_value) % 26) + ord('A'))
+    if letter.isalpha() and letter_shift.isalpha():
+        letter_num = ord(letter.upper()) - ord('A')
+        shift_num = ord(letter_shift.upper()) - ord('A')
 
-    return shifted_letter
-shifted_letter = shift_by_letter("B", "E")
+        shift_num %= 26
+
+        shifted_letter_num = (letter_num + shift_num) % 26
+
+        shifted_letter = chr(shifted_letter_num + ord('A'))
+
+        return shifted_letter
+    else:
+        return letter
+
+
+shifted_letter = shift_by_letter(" ", " ")  
 print (shifted_letter)
 #Example
 
