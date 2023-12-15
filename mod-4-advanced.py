@@ -128,54 +128,29 @@ print(tic_tac_toe(board7))
 #Example
 
 
-#ETA calculator
-#ETA calculator
+#ETA Calculator
 def eta(first_stop, second_stop, route_map):
-    # Extract all unique stops from the route map
-    stops = set(stop for legs in route_map.values() for leg in legs.keys() for stop in leg)
-    distances = {stop: float('inf') for stop in stops}
-    distances[first_stop] = 0
-    visited = set()
+   
+    legs = route_map
 
-    # Dijkstra's algorithm
-    while len(visited) < len(stops):
-        current_stop = min(
-            (stop for stop in stops if stop not in visited),
-            key=lambda x: distances[x]
-        )
-        visited.add(current_stop)
+    # Get the travel time between the first and second stop
+    travel_time = legs[(first_stop, second_stop)]['travel_time_mins']
 
-        for legs in route_map.values():
-            for leg, info in legs.items():
-                if leg[0] == current_stop:
-                    neighbor_stop = leg[1]
-                    total_time = distances[current_stop] + info['travel_time_mins']
-                    if total_time < distances[neighbor_stop]:
-                        distances[neighbor_stop] = total_time
+    return travel_time
 
-    # Return the time to travel from first_stop to second_stop
-    return distances[second_stop]
-
-legs_1 = {
-    ('a1', 'a2'): {'travel_time_mins': 10},
-    ('a2', 'b1'): {'travel_time_mins': 10230},
-    ('b1', 'a1'): {'travel_time_mins': 1}
+legs = {
+     ("upd","admu"):{
+         "travel_time_mins":10
+     },
+     ("admu","dlsu"):{
+         "travel_time_mins":35
+     },
+     ("dlsu","upd"):{
+         "travel_time_mins":55
+     }
 }
 
-legs_2 = {
-    ("upd", "admu"): {"travel_time_mins": 10},
-    ("admu", "dlsu"): {"travel_time_mins": 35},
-    ("dlsu", "upd"): {"travel_time_mins": 55}
-}
+time_to_arrival = eta("upd", "admu", legs)
 
-route_map_1 = {'a1': legs_1, 'a2': legs_1, 'b1': legs_1}
-route_map_2 = {'upd': legs_2, 'admu': legs_2, 'dlsu': legs_2}
-
-print("Sample Data for legs_1:")
-print("upd to dlsu:", eta('upd', 'dlsu', route_map_2))
-print("admu to upd:", eta('admu', 'upd', route_map_2))
-print("dlsu to admu:", eta('dlsu', 'admu', route_map_2))
-print("upd to admu:", eta('upd', 'admu', route_map_2))
-print("admu to dlsu:", eta('admu', 'dlsu', route_map_2))
-
+print("Estimated time of arrival from upd to admu: " + str(time_to_arrival) + " minutes")
 #Example
