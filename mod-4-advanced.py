@@ -128,29 +128,32 @@ print(tic_tac_toe(board7))
 #Example
 
 
-#ETA Calculator
+#ETA calculator
 def eta(first_stop, second_stop, route_map):
-   
-    legs = route_map
-
-    # Get the travel time between the first and second stop
-    travel_time = legs[(first_stop, second_stop)]['travel_time_mins']
-
-    return travel_time
-
-legs = {
-     ("upd","admu"):{
-         "travel_time_mins":10
-     },
-     ("admu","dlsu"):{
-         "travel_time_mins":35
-     },
-     ("dlsu","upd"):{
-         "travel_time_mins":55
-     }
+    time = 0
+    current_leg = first_stop
+    for leg in route_map:
+        if leg[0] == current_leg:
+            time += route_map[leg]["travel_time_mins"]
+            if leg[1] == second_stop:
+                return time
+            else:
+                current_leg = leg[1]
+    
+legs_1 = {
+    ('a1', 'a2'): {'travel_time_mins': 10},
+    ('a2', 'b1'): {'travel_time_mins': 10230},
+    ('b1', 'a1'): {'travel_time_mins': 1}
 }
 
-time_to_arrival = eta("upd", "admu", legs)
+legs_2 = {
+    ("upd", "admu"): {"travel_time_mins": 10},
+    ("admu", "dlsu"): {"travel_time_mins": 35},
+    ("dlsu", "upd"): {"travel_time_mins": 55}
+}
 
-print("Estimated time of arrival from upd to admu: " + str(time_to_arrival) + " minutes")
+route_map_1 = eta('a1', 'a1', legs_1)
+
+print (route_map_1)
+
 #Example
